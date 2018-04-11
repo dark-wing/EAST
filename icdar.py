@@ -37,7 +37,7 @@ def get_images():
     files = []
     for ext in ['jpg', 'png', 'jpeg', 'JPG']:
         files.extend(glob.glob(
-            os.path.join(FLAGS.training_data_path, '*.{}'.format(ext))))
+            os.path.join(FLAGS.training_data_path + '/image_9000/', '*.{}'.format(ext))))
     return files
 
 
@@ -586,7 +586,7 @@ def generator(input_size=512, batch_size=32,
               vis=False):
     image_list = np.array(get_images())
     print('{} training images in {}'.format(
-        image_list.shape[0], FLAGS.training_data_path))
+        image_list.shape[0], FLAGS.training_data_path + '/image_9000/'))
     index = np.arange(0, image_list.shape[0])
     while True:
         np.random.shuffle(index)
@@ -601,7 +601,7 @@ def generator(input_size=512, batch_size=32,
                 im = cv2.imread(im_fn)
                 # print im_fn
                 h, w, _ = im.shape
-                txt_fn = im_fn.replace(os.path.basename(im_fn).split('.')[1], 'txt')
+                txt_fn = im_fn.replace(os.path.basename(im_fn).split('.')[1], 'txt').replace('image_9000','txt_9000')
                 if not os.path.exists(txt_fn):
                     print('text file {} does not exists'.format(txt_fn))
                     continue
