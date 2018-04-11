@@ -579,6 +579,11 @@ def generate_rbox(im_size, polys, tags):
             geo_map[y, x, 4] = rotate_angle
     return score_map, geo_map, training_mask
 
+def imgNameToTxtName(imgName):
+    ext = os.path.splitext(imgName)[1]
+    txt = imgName[0:-len(ext)] + '.txt'
+    txt = txt.replace('image_9000','txt_9000')
+    return txt
 
 def generator(input_size=512, batch_size=32,
               background_ratio=3./8,
@@ -601,7 +606,7 @@ def generator(input_size=512, batch_size=32,
                 im = cv2.imread(im_fn)
                 # print im_fn
                 h, w, _ = im.shape
-                txt_fn = im_fn.replace(os.path.basename(im_fn).split('.')[1], 'txt').replace('image_9000','txt_9000')
+                txt_fn = imgNameToTxtName(im_fn)
                 if not os.path.exists(txt_fn):
                     print('text file {} does not exists'.format(txt_fn))
                     continue
