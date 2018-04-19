@@ -30,7 +30,7 @@ def mean_image_subtraction(images, means=[123.68, 116.78, 103.94]):
     return tf.concat(axis=3, values=channels)
 
 
-def model(images, weight_decay=1e-5, is_training=True):
+def model(images, weight_decay=1e-5, is_training=True,):
     '''
     define the model, we use slim's implemention of resnet
     '''
@@ -78,6 +78,7 @@ def model(images, weight_decay=1e-5, is_training=True):
             geo_map = slim.conv2d(g[3], 4, 1, activation_fn=tf.nn.sigmoid, normalizer_fn=None) * FLAGS.text_scale
             angle_map = (slim.conv2d(g[3], 1, 1, activation_fn=tf.nn.sigmoid, normalizer_fn=None) - 0.5) * np.pi/2 # angle is between [-45, 45]
             F_geometry = tf.concat([geo_map, angle_map], axis=-1)
+
 
     return F_score, F_geometry
 

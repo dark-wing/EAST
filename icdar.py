@@ -41,6 +41,22 @@ def get_images():
     return files
 
 
+
+def pointToBox(x1, y1, x2, y2, x3, y3, x4, y4):
+    pt1 =  [x1,y1]
+    pt2 = [x2,y2]
+    pt3 = [x3,y3]
+    pt4 = [x4,y4]
+    ptl = [pt1,pt2,pt3,pt4]
+    ptl.sort(key=lambda x:x[0])
+    pll = ptl[:2]
+    plr = ptl[2:]
+    pll.sort(key=lambda x:x[1])
+    plr.sort(key=lambda x:x[1])
+            
+
+    return [pll[0],plr[0],plr[1],pll[1]]
+
 def load_annoataion(p):
     '''
     load annotation from the text file
@@ -59,7 +75,8 @@ def load_annoataion(p):
             line = [i.strip('\ufeff').strip('\xef\xbb\xbf') for i in line]
 
             x1, y1, x2, y2, x3, y3, x4, y4 = list(map(float, line[:8]))
-            text_polys.append([[x1, y1], [x2, y2], [x3, y3], [x4, y4]])
+            box = pointToBox(x1, y1, x2, y2, x3, y3, x4, y4)
+            text_polys.append(box)#[[x1, y1], [x2, y2], [x3, y3], [x4, y4]])
             if label == '*' or label == '###':
                 text_tags.append(True)
             else:
