@@ -4,6 +4,7 @@ import csv
 import cv2
 import time
 import os
+import imageio
 import numpy as np
 import scipy.optimize
 import matplotlib.pyplot as plt
@@ -602,6 +603,16 @@ def imgNameToTxtName(imgName):
     txt = txt.replace('image_9000','txt_9000')
     return txt
 
+def readImg(im_fn):
+    im  = cv2.imread(im_fn)
+    if im == None :
+        tmp = imageio.mimread(im_fn)    
+        if tmp != None:
+            imt = np.array(tmp)
+            imt = imt[0]
+            im = imt[:,:,0:3]
+    return im
+
 def generator(input_size=512, batch_size=32,
               background_ratio=3./8,
               random_scale=np.array([0.5, 1, 2.0, 3.0]),
@@ -620,7 +631,7 @@ def generator(input_size=512, batch_size=32,
         for i in index:
             try:
                 im_fn = image_list[i]
-                im = cv2.imread(im_fn)
+                im = readImg(im_fn)
                 # print im_fn
                 h, w, _ = im.shape
                 txt_fn = imgNameToTxtName(im_fn)
