@@ -41,13 +41,19 @@ def get_images():
             os.path.join(FLAGS.training_data_path + '/image_9000/', '*.{}'.format(ext))))
     return files
 
-
+def xyToPt(x,y):
+    if x < 0:
+        x = 0
+    if y < 0 :
+        y = 0
+    return [x,y]
 
 def pointToBox(x1, y1, x2, y2, x3, y3, x4, y4):
-    pt1 =  [x1,y1]
-    pt2 = [x2,y2]
-    pt3 = [x3,y3]
-    pt4 = [x4,y4]
+
+    pt1 =  xyToPt(x1,y1)
+    pt2 = xyToPt(x2,y2)
+    pt3 = xyToPt(x3,y3)
+    pt4 = xyToPt(x4,y4)
     ptl = [pt1,pt2,pt3,pt4]
     ptl.sort(key=lambda x:x[0])
     pll = ptl[:2]
@@ -605,9 +611,9 @@ def imgNameToTxtName(imgName):
 
 def readImg(im_fn):
     im  = cv2.imread(im_fn)
-    if im == None :
+    if im is None :
         tmp = imageio.mimread(im_fn)    
-        if tmp != None:
+        if tmp is not None:
             imt = np.array(tmp)
             imt = imt[0]
             im = imt[:,:,0:3]
