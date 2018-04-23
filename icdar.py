@@ -126,11 +126,12 @@ def check_and_validate_polys(polys, tags, xxx_todo_changeme):
         p_area = polygon_area(poly)
         if abs(p_area) < 1:
             # print poly            
-            print('invalid poly,poly:' ,poly,'tag:',tag,'p_area:',p_area)
+            #print('invalid poly,poly:' ,poly,'tag:',tag,'p_area:',p_area)
             continue
         if p_area > 0:
-            print('poly in wrong direction')
-            poly = poly[(0, 3, 2, 1), :]
+            #print('poly in wrong direction')
+            #poly = poly[(0, 3, 2, 1), :]
+            continue
         validated_polys.append(poly)
         validated_tags.append(tag)
     return np.array(validated_polys), np.array(validated_tags)

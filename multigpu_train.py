@@ -143,7 +143,7 @@ def main(argv=None):
                 saver.restore(sess, ckpt)
                 print('continue training from previous checkpoint')
                 restore = True
-        if resotre == False :
+        if restore == False :
             sess.run(init)
             if FLAGS.pretrained_model_path is not None:
                 variable_restore_op(sess)
@@ -153,7 +153,7 @@ def main(argv=None):
                                          batch_size=FLAGS.batch_size_per_gpu * len(gpus))
 
         start = time.time()
-        for step in range(FLAGS.max_steps):
+        for step in range(global_step + 1,FLAGS.max_steps):
             data = next(data_generator)
             ml, tl, _ = sess.run([model_loss, total_loss, train_op], feed_dict={input_images: data[0],
                                                                                 input_score_maps: data[2],
