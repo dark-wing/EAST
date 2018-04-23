@@ -1,6 +1,7 @@
 import time
 import numpy as np
 import tensorflow as tf
+import os
 from tensorflow.contrib import slim
 
 tf.app.flags.DEFINE_integer('input_size', 512, '')
@@ -135,11 +136,14 @@ def main(argv=None):
         variable_restore_op = slim.assign_from_checkpoint_fn(FLAGS.pretrained_model_path, slim.get_trainable_variables(),
                                                              ignore_missing_vars=True)
     with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
-        if FLAGS.restore:
-            print('continue training from previous checkpoint')
+        restore = False
+        if FLAGS.restore:            
             ckpt = tf.train.latest_checkpoint(FLAGS.checkpoint_path)
-            saver.restore(sess, ckpt)
-        else:
+            if ckpt is not None and os.path.exists(ckpt):
+                saver.restore(sess, ckpt)
+                print('continue training from previous checkpoint')
+                restore = True
+        if resotre == False :
             sess.run(init)
             if FLAGS.pretrained_model_path is not None:
                 variable_restore_op(sess)
