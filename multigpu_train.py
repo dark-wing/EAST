@@ -143,7 +143,7 @@ def main(argv=None):
                 saver.restore(sess, ckpt)
                 print('continue training from previous checkpoint')
                 restore = True
-        if resotre == False :
+        if restore == False :
             sess.run(init)
             if FLAGS.pretrained_model_path is not None:
                 variable_restore_op(sess)
