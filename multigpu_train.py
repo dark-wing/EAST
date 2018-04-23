@@ -140,7 +140,7 @@ def main(argv=None):
         if FLAGS.restore:            
             ckpt = tf.train.latest_checkpoint(FLAGS.checkpoint_path)
             print('ckpt:' + ckpt)
-            if ckpt is not None and os.path.exists(ckpt):
+            if ckpt is not None :
                 saver.restore(sess, ckpt)
                 print('continue training from previous checkpoint')
                 restore = True
