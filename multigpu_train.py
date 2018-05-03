@@ -138,7 +138,7 @@ def main(argv=None):
     with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
         restore = False
         if FLAGS.restore:            
-            ckpt = tf.train.latest_checkpoint(FLAGS.checkpoint_path)
+            ckpt = tf.train.latest_checkpoint(FLAGS.checkpoint_path,"model.ckpt-7450.index")
             print('ckpt:' + ckpt)
             if ckpt is not None :
                 saver.restore(sess, ckpt)
