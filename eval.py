@@ -171,11 +171,14 @@ def main(argv=None):
 
                 # save to file
                 if boxes is not None:
+                    fn,ext = os.path.splitext(os.path.basename(im_fn))
+
+                    txt = fn + '.txt'   
                     res_file = os.path.join(
                         FLAGS.output_dir,
-                        '{}.txt'.format(
-                            os.path.basename(im_fn).split('.')[0]))
-
+                       
+                            txt)
+                    print(res_file)
                     with open(res_file, 'w') as f:
                         for box in boxes:
                             # to avoid submitting errors
